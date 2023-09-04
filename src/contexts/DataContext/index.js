@@ -26,17 +26,22 @@ export const DataProvider = ({ children }) => {
       setError(err);
     }
   }, []);
+  // Création variable pour récupérer le dernier evenement
+  const events = data?.events;
+  const lastEvent = events?.sort((evtA, evtB) => new Date(evtA.date) > new Date(evtB.date) ? -1 : 1)
+  const last = lastEvent?.[0];
+
   useEffect(() => {
     if (data) return;
     getData();
   });
-  
   return (
     <DataContext.Provider
       // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{
         data,
         error,
+        last,
       }}
     >
       {children}
